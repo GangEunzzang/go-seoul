@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+    .register-layout{
+        font-family: 'Do Hyeon', sans-serif;
+        width: 70%;
+        height:1000px;
+        margin-top: 5%;
+        border: 2px solid black;
+        border-radius: 30px;
+        margin-left:15%;
+        margin-right:10%;
+        border-bottom: 5%;
+    }
+    .writer-title{
+        font-size:40px;
+    }
+
+    .footer{
+        margin-top:50px;
+    }
+</style>
+
+<th:block th:replace="layout/fragment/header :: header"></th:block>
+<th:block th:fragment="content">
+    <div class="register-layout">
+        <div class="register-wrap">
+            <h1 class="mt-4">자유게시판 글 작성하기</h1>
+            <form th:action="@{/free/register}" th:method="post">
+                <div class="form-group">
+                    <label >제목</label>
+                    <input type="text" class="form-control" name="title" placeholder="Enter Title">
+                </div>
+                <div class="form-group">
+                    <label >내용</label>
+                    <textarea class = "form-control" rows="30" name="content"></textarea>
+                </div>
+
+
+                <input type="hidden" class="form-control" name="writerId" placeholder="id" >
+
+                <button type="submit" class="btn btn-primary">저장</button>
+
+            </form>
+        </div>
+    </div>
+</th:block>
+<div class="footer">
+    <th:block th:replace="layout/fragment/footer :: footer"></th:block>
+</div>
+
+</html>

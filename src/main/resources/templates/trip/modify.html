@@ -1,0 +1,362 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="layout/fragment/header :: header"></th:block>
+
+<div class="register-layout">
+    <div class="register-wrap">
+        <h1 class="writer-title">수정하기</h1>
+
+        <div class="post-element">
+            <span>제작일 :[[${#temporals.format(dto.regDate, 'yyyy.MM.dd')}]] 수정일 : [[${#temporals.format(dto.modDate, 'yyyy.MM.dd')}]] </span>
+        </div>
+
+        <form>
+            <input type="hidden" name="bno" th:value="${dto.bno}" style="font-size:40px;">
+            <div class="form-group">
+                <label id="place-text">여행지</label>
+                <div class="btn-success" id="place-btn">클릭</div>
+                <input id="place-name" name="place" th:value="${dto.place}">
+                <div id="place-select">
+                    <ul id="place-select-ul">
+                        <li class="place-select-li" value="광진구">광진구</li>
+                        <li class="place-select-li" value="광동구">강동구</li>
+                        <li class="place-select-li" value="강서구">강서구</li>
+                        <li class="place-select-li" value="강북구">강북구</li>
+                        <li class="place-select-li" value="강남구">강남구</li>
+                        <li class="place-select-li" value="금천구">금천구</li>
+                        <li class="place-select-li" value="구로구">구로구</li>
+                        <li class="place-select-li" value="관악구">관악구</li>
+                        <li class="place-select-li" value="노원구">노원구</li>
+                        <li class="place-select-li" value="도봉구">도봉구</li>
+                        <li class="place-select-li" value="동작구">동작구</li>
+                        <li class="place-select-li" value="마포구">마포구</li>
+                        <li class="place-select-li" value="송파구">송파구</li>
+                        <li class="place-select-li" value="서초구">서초구</li>
+                        <li class="place-select-li" value="서대문구">서대문구</li>
+                        <li class="place-select-li" value="성북구">성북구</li>
+                        <li class="place-select-li" value="은평구">은평구</li>
+                        <li class="place-select-li" value="용산구">용산구</li>
+                        <li class="place-select-li" value="영등포구">영등포구</li>
+                        <li class="place-select-li" value="양천구">양천구</li>
+                        <li class="place-select-li" value="중구">중구</li>
+                        <li class="place-select-li" value="종로구">종로구</li>
+                        <li class="place-select-li" value="중랑구">중랑구</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label >제목</label>
+                <input type="text" class="form-control form-title" name="title" placeholder="제목을 입력하세요" th:value="${dto.title}">
+            </div>
+
+            <div class="form-group">
+                <label >내용</label>
+                <textarea type="text" rows="25" class="form-control form-content" name="content" placeholder="내용을 입력하세요">
+            [[${dto.content}]]</textarea>
+            </div>
+
+
+
+            <input type="hidden" name="writer" th:value="${dto.writerId}">  <!-- 아이디 정보 보내줌 .-->
+
+
+            <div id="image-file">
+                <ul>
+                    <label>이전 이미지</label>
+                    <li th:each="movieImage: ${dto.imageDTOList}" th:data-file="${movieImage.getThumbnailURL()}">
+                        <img th:if="${movieImage.path != null}" th:src="|/display?fileName=${movieImage.getThumbnailURL()}|">
+                    </li>
+                </ul>
+            </div>
+
+            <div class="form-group fileForm">
+                <label>사진</label>
+                <div class="custom-file">
+                    <label class="input-file-button" for="fileInput">업로드</label>
+                    <input type="file"  class="custom-file-input" id="fileInput" style="display: none" multiple>
+                    <label class="custom-file-label" data-browse="Browse"></label>
+                </div>
+            </div>
+
+            <div class="box">
+            </div>
+
+            <span>이곳에 파일을 끌어다 놓으세요</span>
+            <div class="uploadResult" style="margin-bottom:15px;">
+                <ul style="text-align:center;">
+
+                </ul>
+        </div>
+        <button type="button" class="btn btn-primary modifyBtn">수정</button>
+        <button type="button" class="btn btn-info removeBtn">삭제</button>
+            <a th:href="@{/trip/list(page=${requestDTO.page},keyword=${requestDTO.keyword})}">
+                <button type="button" class="btn btn-primary">목록</button>
+            </a>
+    </form>
+</div>
+</div>
+
+<script th:inline="javascript">
+    var result = [[${msg}]];
+    console.log(result);
+
+    if(result != null) {
+        alert(result);
+        location.href='list';
+    }
+
+
+
+</script>
+
+<script>
+    $(document).ready(function(e) {
+        var actionForm = $("form"); //form 태그 객체
+        var regex = new RegExp("(.*?)\.(gif|jpg|png|svg|ico)$");
+        var maxSize = 10485760; //10MB
+        var upCount=1;
+
+        function checkExtension(fileName, fileSize){
+
+            if(fileSize >= maxSize){
+                alert("파일 사이즈 초과");
+                return false;
+            }
+
+            if(!regex.test(fileName)){
+                alert("이미지파일만 업로드할 수 있습니다.");
+                return false;
+            }
+            if(upCount == 2){
+                alert("1개의 이미지만 업로드할 수 있습니다.")
+                return false;
+            }
+            upCount ++;
+            return true;
+        }
+
+        $(".custom-file-input").on("change", function() {
+
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+            var formData = new FormData();
+            var inputFile = $(this);
+            var files = inputFile[0].files;
+            var appended = false;
+
+            for (var i = 0; i < files.length; i++) {
+                if(!checkExtension(files[i].name, files[i].size) ){
+                    return false;
+                }
+
+                console.log(files[i]);
+                formData.append("uploadFiles", files[i]);
+                appended = true;
+            }
+
+            //upload를 하지 않는다.
+            if (!appended) {return;}
+
+            for (var value of formData.values()) {
+                console.log(value);
+            }
+
+            var file=$(this).siblings(".custom-file-label");
+            //실제 업로드 부분
+            //upload ajax
+            $.ajax({
+                url: '/uploadAjax',
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: 'POST',
+                dataType:'json',
+                success: function(result){
+                    console.log(result);
+                    showResult(result);
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    console.log(textStatus);
+                }
+            }); //$.ajax
+
+        }); //end change event
+
+
+        function showResult(uploadResultArr){
+
+            var uploadUL = $(".uploadResult ul");
+
+            var str ="";
+            var showCount=1;
+
+            $(uploadResultArr).each(function(i, obj) {
+                if(showCount==2){
+                    alert("1개의 이미지만 가능합니다.");
+                    return;
+                }
+                str += "<li data-name='" + obj.fileName + "' data-path='"+obj.folderPath+"' data-uuid='"+obj.uuid+"'>";
+                str + " <div>";
+                str += "<button type='button' data-file=\'" + obj.imageURL + "\' "
+                str += "class='btn-warning btn-sm'>X</button><br>";
+                str += "<img src='/display?fileName=" + obj.thumbnailURL + "'>";
+                str += "</div>";
+                str + "</li>";
+                showCount++;
+            });
+
+            uploadUL.append(str);
+        }
+
+        //파일삭제
+        $(".uploadResult ").on("click", "li button", function(e){
+
+            console.log("delete file");
+
+            var targetFile = $(this).data("file");
+
+            var targetLi = $(this).closest("li");
+
+            $.ajax({
+                url: '/removeFile',
+                data: {fileName: targetFile},
+                dataType:'text',
+                type: 'POST',
+                success: function(result){
+                    targetLi.remove();
+                }
+            }); //$.ajax
+            upCount--;
+        });
+
+
+        //수정
+        $(".modifyBtn").on("click", function(e) {
+            e.preventDefault();
+            console.log($(".uploadResult ul li"))
+            var title = $(".form-title").val();
+            var content = $(".form-content").val();
+            var place = $("#place-name").val();
+            var modifytype="";
+
+            //유효성 검사
+            if($(".uploadResult ul li").length==0){
+                modifytype="modify";
+            }else{
+                modifytype="imgmodify"
+            }
+
+            if (title.trim() == "") {
+                alert("제목을 입력하세요.");
+                $(".form-title").focus();
+                return false;
+            }
+            if (content.trim() == "") {
+                alert("내용을 입력하세요.");
+                $(".form-content").focus();
+                return false;
+            }
+            if(place == ""){
+                alert("여행지를 선택하세요")
+                $("#place-name").focus();
+                return false
+            }
+
+            var str = "";
+            $(".uploadResult li").each(function(i,obj){
+                var target = $(obj);
+
+                str += "<input type='hidden' name='imageDTOList["+i+"].imgName' value='"+target.data('name') +"'>";
+                str += "<input type='hidden' name='imageDTOList["+i+"].path' value='"+target.data('path')+"'>";
+                str += "<input type='hidden' name='imageDTOList["+i+"].uuid' value='"+target.data('uuid')+"'>";
+            });
+            $(".box").html(str);
+
+            actionForm.attr("action","/trip/"+modifytype).attr("method","post");
+            actionForm.submit();
+        });
+
+        //파일 드래그시 새창으로 열리는것 방지
+        $(".uploadResult").on("dragenter dragover",function(event){
+            //기본이벤트취소.새창이 열리는 것 방지
+            event.preventDefault();
+        });
+        //파일 드롭시  파일업로드
+        $(".uploadResult").on("drop",function(event){
+            //기본이벤트취소.새창이 열리는 것 방지
+            event.preventDefault();
+
+            //FormData객체 생성. form태그에 대응하는 객체
+            var formData=new FormData();
+
+            //drop했을 때 파일의 목록을 구함
+            var files=event.originalEvent.dataTransfer.files;
+
+            var appended = false;
+
+            for (var i = 0; i < files.length; i++) {
+
+                if(!checkExtension(files[i].name, files[i].size) ){
+                    return false;
+                }
+                if(files.length>=2){
+                    alert("1개의 이미지만 가능합니다.");
+                    return;
+                }
+
+                console.log(files[i]);
+                formData.append("uploadFiles", files[i]);
+                appended = true;
+            }
+
+            //upload를 하지 않는다.
+            if (!appended) {return;}
+
+            for (var value of formData.values()) {
+                console.log(value);
+            }
+            if(upCount==2){
+                alert("1개의 이미지만 가능합니다.");
+                return;
+            }
+            var file=$(this).siblings(".custom-file-label");
+
+            //실제 업로드 부분
+            //upload ajax
+            $.ajax({
+                url: '/uploadAjax',
+                processData: false,
+                contentType: false,
+                data: formData,
+                type: 'POST',
+                dataType:'json',
+                success: function(result){
+                    console.log(result);
+
+                    showResult(result);
+                    if(upCount<=2){
+                        upCount++;
+                    }
+
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    console.log(textStatus);
+                }
+            }); //$.ajax
+
+        });
+
+
+        $(".removeBtn").click(function () {
+        if(!confirm("삭제하시겠습니까??")) {
+                    return;
+                }
+            actionForm.attr("action","/trip/remove").attr("method","post");
+            actionForm.submit();
+        })
+
+    }); //document ready
+
+</script>
+<th:block th:replace="layout/fragment/footer :: footer"></th:block>

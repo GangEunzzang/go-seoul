@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="layout/fragment/header :: header"></th:block>
+<th:block th:fragment="content">
+
+    <div class="register-layout">
+        <div class="register-wrap">
+            <h1 class="writer-title">게시판 수정하기</h1>
+
+            <form action="/free/modify" method="post">
+
+                <!--페이지 번호-->
+                <div class="post-element">
+                    <span>제작일 :[[${#temporals.format(dto.regDate, 'yyyy.MM.dd')}]] 수정일 : [[${#temporals.format(dto.modDate, 'yyyy.MM.dd')}]] </span>
+                </div>
+                <div id="list-modify-btn">
+            <span>
+                <a href="/free/list">
+                   <button type="button" class="btn btn-info">목록</button>
+                </a>
+            </span>
+                    <button type="button" class="btn btn-primary modifyBtn">게시글 수정</button>
+                    <button type="button" class="btn btn-danger removeBtn">게시글 삭제</button>
+                </div>
+
+
+                <div class="form-group">
+                    <label >Bno</label>
+                    <input type="text" class="form-control" name="bno" th:value="${dto.bno}" readonly>
+                </div>
+
+                <div class="form-group" id="input-title">
+                    <label >Title</label>
+                    <input type="text" class="form-control" name="title" th:value="${dto.title}" style="background: white">
+                </div>
+
+                <div class="form-group">
+                    <label >내용</label>
+                    <textarea type="text" rows="25" class="form-control form-content" name="content" placeholder="내용을 입력하세요"  style="background: white">
+                [[${dto.content}]]
+                </textarea>
+                </div>
+
+                <div class="form-group">
+                    <label >Writer</label>
+                    <input type="text" class="form-control"  th:value="${dto.writerId}"readonly>
+                </div>
+
+                <div class="form-group">
+                    <label >RegDate</label>
+                    <input type="text" class="form-control" th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}"readonly >
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+
+
+    <script th:inline="javascript">
+    var actionForm = $("form"); //form 태그 객체
+
+            $(".removeBtn").click(function(){
+                if(!confirm("삭제하시겠습니꽈??")) {
+                    return;
+                }
+                actionForm
+                    .attr("action", "/free/remove")
+                    .attr("method","post");
+
+                actionForm.submit();
+
+            });
+
+            $(".modifyBtn").click(function() {
+                if(!confirm("수정하시겠습니까?")){
+                    return ;
+                }
+                actionForm
+                    .attr("action", "/free/modify")
+                    .attr("method","post")
+                .submit();
+            });
+
+            $(".listBtn").click(function() {
+
+                var page = $("input[name='page']");
+                var type = $("input[name='type']");
+                var keyword = $("input[name='keyword']");
+
+                actionForm.empty(); //form 태그의 모든 내용을 지우고
+
+                actionForm.append(page);
+                actionForm.append(type);
+                actionForm.append(keyword);
+
+
+                actionForm
+                    .attr("action", "/free/list")
+                    .attr("method","get");
+
+                actionForm.submit();
+
+            })
+
+</script>
+
+</th:block>
+<th:block th:replace="layout/fragment/footer :: footer"></th:block>
+</html>

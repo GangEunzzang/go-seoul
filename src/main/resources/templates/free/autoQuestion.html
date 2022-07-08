@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<script src="https://kit.fontawesome.com/44d763aa33.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<th:block th:replace="layout/fragment/header :: header"></th:block>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+    .container {
+        font-family: 'Do Hyeon', sans-serif;
+        width: 65%;
+        margin-top: 5%;
+        border: 2px solid black;
+        border-radius: 30px;
+        margin-left:20%;
+        margin-right:25%;
+        margin-bottom:10%;
+    }
+
+    /*메인 타이틀*/
+    .main_tit{
+        margin: 30px;
+        margin-top: 40px;
+        margin-bottom:20px;
+
+    }
+    .main_font{
+        font-weight: bold;
+        font-size: 40px;
+    }
+
+    /*글쓰기 버튼*/
+    .registerBtn{
+        margin-left: 40px;
+        margin-bottom: 20px;
+    }
+
+
+    /*본문*/
+    .line_box{
+        width : 100%;
+        margin-left: -20px;
+    }
+    .line_box .board02_content>li .tit{
+        margin-bottom: 0;
+
+    }
+    .board02_content>li {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .board02_content>li.th_line {
+        background-color: #f9f9f9;
+        border-radius: 20px;
+
+    }
+
+    .board02_content>li.th_line>div {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .board02_content>li .num {
+        width: 10%;
+    }
+
+    .board02_content>li .tit {
+        width: 67%;
+    }
+
+    .board02_content>li .date {
+        width: 13%;
+    }
+
+    .board02_content>li .period {
+        width: 23%;
+    }
+    .board02_content>li.td_line + li.td_line {
+        border-top: 1px solid rgba(224, 223, 226, 0.6);
+    }
+
+    .board02_content>li.td_line>div {
+        font-size: 16px;
+    }
+
+    .board02_content>li.td_line>div a {
+        font-size: 100%;
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .board02_content>li.td_line>div span {
+        color: inherit;
+        font-size: inherit;
+    }
+
+    #paging{
+        margin-left: 45%;
+        text-align: center;
+        color: black;
+    }
+
+    .footer{
+        padding: 0;
+        width:100%;
+        position: absolute;
+        bottom: 0;
+    }
+
+    @media screen and (max-width:1280px) {
+        .line_box .board02_content>li .tit{
+            margin-left: 0%;
+        }
+    }
+    @media screen and (max-width:650px) {
+        .line_box .board02_content .th_line + .td_line{
+            border-top:0;
+        }
+        .line_box .board02_content > .td_line:last-child{
+            border-bottom:0;
+        }
+        .line_box .board02_content > li.td_line .tit{
+            padding-right: 50px;
+        }
+    }
+
+
+</style>
+<div class="container">
+
+    <div class="aq-left-1 main_font">
+        <div class="free-5-line">고객센터</div>
+
+        <div class="free-5-item">
+            <a th:href="@{/free/list}">
+                Q&A
+            </a>
+        </div>
+        <div class="free-5-item" >
+            <a th:href="@{/free/autoQuestion}">FAQ</a>
+        </div>
+    </div>
+
+
+
+    <div class="main_tit">
+        <h1>자주 묻는 질문</h1>
+    </div>
+    <div class="right-session-header">
+        <!--            <p class="right-session-header-category">구분</p>-->
+        <!--            <p class="right-session-header-title">제목</p>-->
+    </div>
+
+    <div class="right-session-body-list sdto-1">
+        <p class="right-session-header-category">Q</p>
+        <p class="right-session-header-title">회원 정보 수정은 어디서 하나요?</p>
+        <p class="right-session-header-down">∨</p>
+    </div>
+    <div class="right-session-list-ac ac-1">
+        <p class="right-session-list-ac-p">A</p>
+        <p class="right-session-list-ac-p-2">
+            아이디 좌측 나의정보에서 확인 가능합니다.
+        </p>
+    </div>
+
+    <div class="right-session-body-list sdto-2">
+        <p class="right-session-header-category">Q</p>
+        <p class="right-session-header-title">사진은 최대 개수가 몇개인가요?</p>
+        <p class="right-session-header-down">∨</p>
+    </div>
+    <div class="right-session-list-ac ac-2">
+        <p class="right-session-list-ac-p">A</p>
+        <p class="right-session-list-ac-p-2">
+            최대 1장까지 가능합니다.
+        </p>
+    </div>
+    <div class="right-session-body-list sdto-3">
+        <p class="right-session-header-category">Q</p>
+        <p class="right-session-header-title">어디가 놀기좋나요?</p>
+        <p class="right-session-header-down">∨</p>
+    </div>
+    <div class="right-session-list-ac ac-3">
+        <p class="right-session-list-ac-p">A</p>
+        <p class="right-session-list-ac-p-2">어디가 좋을까요?</p>
+    </div>
+
+    <div class="right-session-body-list sdto-4">
+        <p class="right-session-header-category">Q</p>
+        <p class="right-session-header-title">인스타 핫플만 저장해놓은건 없나요?</p>
+        <p class="right-session-header-down">∨</p>
+    </div>
+    <div class="right-session-list-ac ac-4">
+        <p class="right-session-list-ac-p">A</p>
+        <p class="right-session-list-ac-p-2">
+            네 없습니다
+        </p>
+    </div>
+
+    <div class="right-session-body-list sdto-5">
+        <p class="right-session-header-category">Q</p>
+        <p class="right-session-header-title">test</p>
+        <p class="right-session-header-down">∨</p>
+    </div>
+    <div class="right-session-list-ac ac-5">
+        <p class="right-session-list-ac-p">A</p>
+        <p class="right-session-list-ac-p-2">
+            test
+        </p>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        $('.sdto-1').click(function(){
+            $('.ac-1').slideToggle();
+        })
+        $('.sdto-2').click(function(){
+            $('.ac-2').slideToggle();
+        })
+        $('.sdto-3').click(function(){
+            $('.ac-3').slideToggle();
+        })
+        $('.sdto-4').click(function(){
+            $('.ac-4').slideToggle();
+        })
+        $('.sdto-5').click(function(){
+            $('.ac-5').slideToggle();
+        })
+
+    });
+
+</script>
+
+
+<th:block th:replace="layout/fragment/footer :: footer"></th:block>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<script src="https://kit.fontawesome.com/44d763aa33.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<th:block th:replace="layout/fragment/header :: header"></th:block>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+    .container {
+        font-family: 'Do Hyeon', sans-serif;
+        width: 65%;
+        margin-top: 5%;
+        border: 2px solid black;
+        border-radius: 30px;
+        margin-left:20%;
+        margin-right:25%;
+        margin-bottom:10%;
+        height:100%;
+    }
+
+    /*메인 타이틀*/
+    .main_tit{
+        margin: 30px;
+        margin-top: 40px;
+        margin-bottom:20px;
+
+    }
+    .main_font{
+        font-weight: bold;
+        font-size: 40px;
+    }
+
+    /*글쓰기 버튼*/
+    .registerBtn{
+        margin-left: 40px;
+        margin-bottom: 20px;
+    }
+
+
+    /*본문*/
+    .line_box{
+        width : 100%;
+        margin-left: -20px;
+    }
+    .line_box .board02_content>li .tit{
+        margin-bottom: 0;
+
+    }
+    .board02_content>li {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .board02_content>li.th_line {
+        background-color: #f9f9f9;
+        border-radius: 20px;
+
+    }
+
+    .board02_content>li.th_line>div {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .board02_content>li .num {
+        width: 10%;
+    }
+
+    .board02_content>li .tit {
+        width: 67%;
+    }
+
+    .board02_content>li .date {
+        width: 13%;
+    }
+
+    .board02_content>li .period {
+        width: 23%;
+    }
+    .board02_content>li.td_line + li.td_line {
+        border-top: 1px solid rgba(224, 223, 226, 0.6);
+    }
+
+    .board02_content>li.td_line>div {
+        font-size: 16px;
+    }
+
+    .board02_content>li.td_line>div a {
+        font-size: 100%;
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .board02_content>li.td_line>div span {
+        color: inherit;
+        font-size: inherit;
+    }
+
+    #paging{
+        margin-left: 45%;
+        text-align: center;
+        color: black;
+    }
+
+    .footer{
+        padding: 0;
+        width:100%;
+        position: absolute;
+        bottom: 0;
+    }
+
+    @media screen and (max-width:1280px) {
+        .line_box .board02_content>li .tit{
+            margin-left: 0%;
+        }
+    }
+    @media screen and (max-width:650px) {
+        .line_box .board02_content .th_line + .td_line{
+            border-top:0;
+        }
+        .line_box .board02_content > .td_line:last-child{
+            border-bottom:0;
+        }
+        .line_box .board02_content > li.td_line .tit{
+            padding-right: 50px;
+        }
+    }
+
+
+</style>
+<div class="container">
+    <div class="aq-left-1 main_font">
+        <div class="free-5-line">고객센터</div>
+
+        <div class="free-5-item">
+            <a th:href="@{/free/list}">
+                Q&A
+            </a>
+        </div>
+        <div class="free-5-item" >
+            <a th:href="@{/free/autoQuestion}">FAQ</a>
+        </div>
+    </div>
+    <div class="main_tit">
+        <h1>Q&A 질문게시판</h1>
+        <span>
+                <a th:href="@{/free/register}" sec:authorize="isAuthenticated()">
+                    <button type="button" class="btn btn-outline-primary">글 쓰기
+                    </button>
+                </a>
+            </span>
+    </div>
+
+    <div class="right-session-header">
+        <!--            <p class="right-session-header-category">구분</p>-->
+        <!--            <p class="right-session-header-title">제목</p>-->
+    </div>
+
+    <div class="line_box">
+
+        <ul class="board02_content invest_news">
+            <li class="th_line">
+                <div class="num">번호</div>
+                <div class="tit">제목</div>
+                <div class="period">작성자</div>
+                <div class="date">작성일</div>
+            </li>
+
+            <li class="td_line" th:each="dto : ${result.dtoList}">
+                <div class="num">[[${dto.bno}]]</div>
+                <div class="tit">
+                    <a th:href="@{/free/read(bno = ${dto.bno},
+                    page= ${result.page},
+                    type=${pageRequestDTO.type} ,
+                    keyword = ${pageRequestDTO.keyword})}">
+                        [[${dto.title}]]   [<b th:text="${dto.replyCount}"></b>]
+                    </a>
+
+                </div>
+                <div class="period">[[${dto.writerId}]]</div>
+                <div class="date">[[${#temporals.format(dto.regDate, 'yyyy.MM.dd')}]]</div>
+
+            </li>
+        </ul>
+
+
+        <!--하단 페이징처리-->
+        <ul id="paging" class="pagination h-100 justify-content-center align-items-center">
+
+            <li class="page-item " th:if="${result.prev}">
+                <a class="page-link" th:href="@{/free/list(page= ${result.start -1},
+                    type=${pageRequestDTO.type} ,
+                    keyword = ${pageRequestDTO.keyword} ) }" tabindex="-1">이전</a>
+            </li>
+
+            <li th:class=" 'page-item ' + ${result.page == page?'active':''} " th:each="page: ${result.pageList}">
+                <a class="page-link" th:href="@{/free/list(page = ${page} ,
+                   type=${pageRequestDTO.type} ,
+                   keyword = ${pageRequestDTO.keyword}  )}">
+                    [[${page}]]
+                </a>
+            </li>
+
+            <li class="page-item" th:if="${result.next}">
+                <a class="page-link" th:href="@{/free/list(page= ${result.end + 1} ,
+                    type=${pageRequestDTO.type} ,
+                    keyword = ${pageRequestDTO.keyword} )}">
+                    다음
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function(){
+        $('.sdto-1').click(function(){
+            $('.ac-1').slideToggle();
+        })
+        $('.sdto-2').click(function(){
+            $('.ac-2').slideToggle();
+        })
+        $('.sdto-3').click(function(){
+            $('.ac-3').slideToggle();
+        })
+        $('.sdto-4').click(function(){
+            $('.ac-4').slideToggle();
+        })
+        $('.sdto-5').click(function(){
+            $('.ac-5').slideToggle();
+        })
+
+    });
+
+</script>
+
+
+<th:block th:replace="layout/fragment/footer :: footer"></th:block>
+</html>
