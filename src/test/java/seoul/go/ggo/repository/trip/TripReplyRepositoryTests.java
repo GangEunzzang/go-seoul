@@ -1,22 +1,22 @@
-package seoul.go.ggo.repository.trip;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import seoul.go.ggo.entity.Member;
-import seoul.go.ggo.entity.Trip;
-import seoul.go.ggo.entity.TripReply;
-
-import java.util.List;
-import java.util.stream.IntStream;
-
-@SpringBootTest
-public class TripReplyRepositoryTests {
-    @Autowired
-    private TripReplyRepository tripReplyRepository;
-
-    @Autowired
-    private TripImageRepository tripImageRepository;
+//package seoul.go.ggo.repository.trip;
+//
+//import org.junit.jupiter.api.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import seoul.go.ggo.entity.Member;
+//import seoul.go.ggo.entity.Trip;
+//import seoul.go.ggo.entity.TripReply;
+//
+//import java.util.List;
+//import java.util.stream.IntStream;
+//
+//@SpringBootTest
+//public class TripReplyRepositoryTests {
+//    @Autowired
+//    private TripReplyRepository tripReplyRepository;
+//
+//    @Autowired
+//    private TripImageRepository tripImageRepository;
 
 
 
@@ -60,5 +60,5 @@ public class TripReplyRepositoryTests {
 //        System.out.println(tripImageRepository.findById(inum));
 //        System.out.println("==========================");
 //    }
-
-}
+//
+//}

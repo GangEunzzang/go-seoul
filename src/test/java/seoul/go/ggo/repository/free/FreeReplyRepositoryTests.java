@@ -1,22 +1,22 @@
-package seoul.go.ggo.repository.free;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import seoul.go.ggo.entity.Free;
-import seoul.go.ggo.entity.FreeReply;
-import seoul.go.ggo.entity.Member;
-
-import javax.transaction.Transactional;
-import java.util.Optional;
-import java.util.stream.IntStream;
-
-@SpringBootTest
-public class FreeReplyRepositoryTests {
-
-    @Autowired
-    private FreeReplyRepository freeReplyRepository;
-
+//package seoul.go.ggo.repository.free;
+//
+//import org.junit.jupiter.api.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.test.context.SpringBootTest;
+//import seoul.go.ggo.entity.Free;
+//import seoul.go.ggo.entity.FreeReply;
+//import seoul.go.ggo.entity.Member;
+//
+//import javax.transaction.Transactional;
+//import java.util.Optional;
+//import java.util.stream.IntStream;
+//
+//@SpringBootTest
+//public class FreeReplyRepositoryTests {
+//
+//    @Autowired
+//    private FreeReplyRepository freeReplyRepository;
+//
 
 //    @Test
 //    public void insertFree_reply(){
@@ -45,5 +45,5 @@ public class FreeReplyRepositoryTests {
 //
 //    }
 
-
-}
+//
+//}
