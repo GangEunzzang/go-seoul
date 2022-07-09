@@ -18,32 +18,32 @@ public class FreeReplyRepositoryTests {
     private FreeReplyRepository freeReplyRepository;
 
 
-    @Test
-    public void insertFree_reply(){
-        IntStream.rangeClosed(1,30).forEach(i->{
-            long bno=(long)(Math.random()*10)+1;
-            Free free = Free.builder().bno(bno).build();
-            Member member=Member.builder().id("user"+i+"@google.com").build();
-            FreeReply freeReply = FreeReply.builder()
-                    .content("댓글...."+i)
-                    .free(free)
-                    .writer(member)
-                    .build();
-            freeReplyRepository.save(freeReply);
-        });
-    }
-
-    @Transactional
-    @Test
-    public void Reply01(){
-        Optional<FreeReply> result = freeReplyRepository.findById(1L);
-
-        FreeReply freeReply = result.get();
-
-        System.out.println(freeReply);
-        System.out.println(freeReply.getFree());
-
-    }
+//    @Test
+//    public void insertFree_reply(){
+//        IntStream.rangeClosed(1,30).forEach(i->{
+//            long bno=(long)(Math.random()*10)+1;
+//            Free free = Free.builder().bno(bno).build();
+//            Member member=Member.builder().id("user"+i+"@google.com").build();
+//            FreeReply freeReply = FreeReply.builder()
+//                    .content("댓글...."+i)
+//                    .free(free)
+//                    .writer(member)
+//                    .build();
+//            freeReplyRepository.save(freeReply);
+//        });
+//    }
+//
+//    @Transactional
+//    @Test
+//    public void Reply01(){
+//        Optional<FreeReply> result = freeReplyRepository.findById(1L);
+//
+//        FreeReply freeReply = result.get();
+//
+//        System.out.println(freeReply);
+//        System.out.println(freeReply.getFree());
+//
+//    }
 
 
 }

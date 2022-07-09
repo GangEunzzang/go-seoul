@@ -63,31 +63,31 @@ public class TripRepositoryTests {
         });
     }
 
-    @Test
-    @Transactional
-    @DisplayName("여행게시판 목록 테스트")
-    public void join(){
-        PageRequest pageRequest = PageRequest.of(0,30);
-
-        Page<Object[]> result = tripRepository.getListPage(pageRequest);
-
-        for (Object[] objects : result.getContent()) {
-            System.out.println(Arrays.toString(objects));
-        }
-    }
-
-    @Test
-    @Transactional
-    @DisplayName("여행 게시판 여행지별 정렬 테스트")
-    public void sortList(){
-        PageRequest pageRequest = PageRequest.of(0,30);
-
-        Page<Object[]> result = tripRepository.getListSortPage(pageRequest, "강남구");
-
-        for (Object[] objects : result.getContent()) {
-            System.out.println(Arrays.toString(objects));
-        }
-    }
+//    @Test
+//    @Transactional
+//    @DisplayName("여행게시판 목록 테스트")
+//    public void join(){
+//        PageRequest pageRequest = PageRequest.of(0,30);
+//
+//        Page<Object[]> result = tripRepository.getListPage(pageRequest);
+//
+//        for (Object[] objects : result.getContent()) {
+//            System.out.println(Arrays.toString(objects));
+//        }
+//    }
+//
+//    @Test
+//    @Transactional
+//    @DisplayName("여행 게시판 여행지별 정렬 테스트")
+//    public void sortList(){
+//        PageRequest pageRequest = PageRequest.of(0,30);
+//
+//        Page<Object[]> result = tripRepository.getListSortPage(pageRequest, "강남구");
+//
+//        for (Object[] objects : result.getContent()) {
+//            System.out.println(Arrays.toString(objects));
+//        }
+//    }
 
 }
 

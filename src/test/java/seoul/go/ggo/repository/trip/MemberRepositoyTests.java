@@ -20,12 +20,12 @@ public class MemberRepositoyTests {
     @Autowired
     private TripRepository tripRepository;
 
-    @Commit
-    @Transactional
-    @Test
-    public void testDeleteMember(){
-
-        Long rno=(long)74;
-        tripReplyRepository.deleteById(rno);
-    }
+//    @Commit
+//    @Transactional
+//    @Test
+//    public void testDeleteMember(){
+//
+//        Long rno=(long)74;
+//        tripReplyRepository.deleteById(rno);
+//    }
 }
