@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:fragment="header">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+        <script src="https://kit.fontawesome.com/44d763aa33.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+        <!-- slick slider -->
+        <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.7.1/slick/slick.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.7.1/slick/slick.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.7.1/slick/slick-theme.css" />
+
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/font.css}">
+        <script type="text/javascript" th:src="@{/js/script.js}"></script>
+
+        <title> portfolio </title>
+    </head>
+
+    <div class ="header">
+        <h1 id="logo">
+            <a href="/index"><span>Go Seoul</span></a>
+        </h1>
+
+        <div id="nav">
+            <nav class="nav">
+                <ul>
+                    <li><a href="/notice/list">공지사항</a></li>
+                    <li><a href="/trip/list">여행게시판</a></li>
+                    <li><a href="/free/list">질문게시판</a></li>
+                    <li>
+                        <a id="login"  sec:authorize="isAnonymous()" >로그인</a>
+                        <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div id="modal-login">
+            <div class="modal-window">
+                <div class="modal-close">X</div>
+                <div class="modal-login-title">
+                    <span>간편 로그인</span>
+                </div>
+                <div class="modal-text">
+              <span><br>기존에 사용하시는 계정으로<br>
+              간단하게 회원가입 하세요.</span>
+                </div>
+                <div class="modal-content1"><img src="/img/login/naver.png" alt="네이버 로그인"/>
+                    <span class="social-login1">
+                         <a href="http://localhost:8181/oauth2/authorization/naver">네이버로 시작하기</a>
+                        </span>
+                </div>
+                <div class="modal-content2"><img src="/img/login/google.png" alt="구글 로그인"/>
+                    <span class="social-login2">
+                         <a href="http://localhost:8181/oauth2/authorization/google">구글로 시작하기</a>
+                        </span>
+                </div>
+            </div>
+        </div>
+
+        <form action="/trip/list?keyword="+keyword method="get">
+            <div class="search">
+                <input type="text" class="search-txt" name="keyword" placeholder="검색어를 입력하세요">
+                <button type="submit" class="search-icon">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+
+        <form action="/trip/list?Mytrip="+Mytrip method="get" >
+            <button sec:authorize="isAuthenticated()" type="submit" class="myIdBtn"  name="Mytrip" value="1">
+                <i class="fa-solid fa-user-pen"></i>
+            </button>
+        </form>
+
+        <div id="quick-menu">
+            <ul id="quick-menu-list">
+                <li>
+                    <a th:href="@{/trip/list}">
+                        <i class="fa-solid fa-plane" ></i>
+                        <span>추천여행</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/notice/list}">
+                        <i class="fa-solid fa-flag"></i>
+                        <span>공지사항</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/free/list}">
+                        <i class="fa-solid fa-circle-question"></i>
+                        <span>Q & A</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a th:href="@{/trip/list}">
+                        <i class="fab fa-facebook" > </i>
+                    </a>
+
+                    <a th:href="@{/trip/list}">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</th:block>
+</html>

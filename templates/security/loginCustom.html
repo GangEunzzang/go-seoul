@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Please sign in</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+  <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+
+</head>
+
+
+<body>
+<div class="container">
+  <form class="form-signin" method="post" th:action="@{/login}">
+    <h2 class="form-signin-heading">LoginCustom</h2>
+    <p>
+      <label for="username" class="sr-only">아이디</label>
+      <input type="text" id="username" name="username" class="form-control" placeholder="ID" required autofocus>
+    </p>
+    <p>
+      <label for="password" class="sr-only">비밀번호</label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+    </p>
+    <p><input type='checkbox' name='remember-me'/>자동로그인</p>
+    <button th:href="@{/index}" class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
+
+  </form>
+  <h2 class="form-signin-heading">Login with OAuth 2.0</h2>
+  <table class="table table-striped">
+
+    <tr><td><a href="/oauth2/authorization/google">Google</a></td></tr>
+
+
+  </table>
+</div>
+
+<div class="login-area">
+  <div id="button_area">
+    <div id="naverIdLogin"></div>
+  </div>
+</div>
+
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+<!-- 네이버아이디로로그인 버튼 노출 영역 ---------------------------------------------------------------->
+
+<!-- 네이버아디디로로그인 초기화 Script -->
+
+
+<script type="text/javascript">
+
+  var naverLogin = new naver.LoginWithNaverId(
+          {
+            clientId: "7G1Zzidkrak7ZbnufbV3",
+            callbackUrl: "http://localhost:8181/index",
+            loginButton: {color: "green", type: 2, height: 40}
+          }
+  );
+
+
+  naverLogin.init();
+  naverLogin.getLoginStatus(function (status) {
+    if (status) {
+      const nickName=naverLogin.user.getNickName();
+      const age=naverLogin.user.getAge();
+      const birthday=naverLogin.user.getBirthday();
+
+      if(nickName===null||nickName===undefined ){
+        alert("별명이 필요합니다. 정보제공을 동의해주세요.");
+        naverLogin.reprompt();
+        return ;
+      }else{
+        setLoginStatus();
+      }
+    }
+  });
+  console.log(naverLogin);
+
+  function setLoginStatus(){
+
+    const message_area=document.getElementById('message');
+    message_area.innerHTML=`
+      <h3> Login 성공 </h3>
+      <div>user Nickname : ${naverLogin.user.nickname}</div>
+      <div>user Age(범위) : ${naverLogin.user.age}</div>
+      <div>user Birthday : ${naverLogin.user.birthday}</div>
+      `;
+
+    const button_area=document.getElementById('button_area');
+    button_area.innerHTML="<button id='btn_logout'>로그아웃</button>";
+
+    const logout=document.getElementById('btn_logout');
+    logout.addEventListener('click',(e)=>{
+      naverLogin.logout();
+      location.replace("http://127.0.0.1:5500");
+    })
+  }
+
+
+</script>
+
+
+</body></html>

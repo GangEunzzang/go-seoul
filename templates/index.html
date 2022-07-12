@@ -1,0 +1,183 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="layout/fragment/header :: header"></th:block>
+
+
+<!-- 캐러셀 ---------------------------------------------------------------------->
+<section id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img src="/img/seoul/gseoul.png" alt="서울 사진">
+            <div class="carousel-caption">
+                <h2>Meet You Seoul</h2>
+            </div>
+        </div>
+
+        <div class="item">
+            <img src="/img/seoul/gseoul2.png" alt="서울 사진">
+            <div class="carousel-caption">
+                <h2>Meet You Seoul</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</section>
+<!-- 캐러셀 -->
+
+
+<!-- 서울 지도 시작 -->
+<section id="seoul-place">
+    <div id="place-main">
+        <h1>서울 여행</h1>
+        <img src="/img/seoul/map.png" alt="서울 지도" />
+        <div id="gu-gs">
+            <a href="trip/list?place=강서구"><h5>강서구</h5></a>
+        </div>
+        <div id="gu-yc">
+            <a href="trip/list?place=양천구"><h5>양천구</h5></a>
+        </div>
+        <div id="gu-gr">
+            <a href="trip/list?place=구로구"><h5>구로구</h5></a>
+        </div>
+        <div id="gu-ydp">
+            <a href="trip/list?place=영등포구"><h5>영등포구</h5></a>
+        </div>
+        <div id="gu-gc">
+            <a href="trip/list?place=금천구"><h5>금천구</h5></a>
+        </div>
+        <div id="gu-dg">
+            <a href="trip/list?place=동작구"><h5>동작구</h5></a>
+        </div>
+        <div id="gu-ge">
+            <a href="trip/list?place=관악구"><h5>관악구</h5></a>
+        </div>
+        <div id="gu-sc">
+            <a href="trip/list?place=서초구"><h5>서초구</h5></a>
+        </div>
+        <div id="gu-gn">
+            <a href="trip/list?place=강남구"><h5>강남구</h5></a>
+        </div>
+        <div id="gu-sp">
+            <a href="trip/list?place=송파구"><h5>송파구</h5></a>
+        </div>
+        <div id="gu-gd">
+            <a href="trip/list?place=강동구"><h5>강동구</h5></a>
+        </div>
+        <div id="gu-mp">
+            <a href="trip/list?place=마포구"><h5>마포구</h5></a>
+        </div>
+        <div id="gu-ep">
+            <a href="trip/list?place=은평구"><h5>은평구</h5></a>
+        </div>
+        <div id="gu-sdm">
+            <a href="trip/list?place=서대문구"><h5>서대문구</h5></a>
+        </div>
+        <div id="gu-gro">
+            <a href="trip/list?place=종로구"><h5>종로구</h5></a>
+        </div>
+        <div id="gu-g">
+            <a href="trip/list?place=중구"><h5>중구</h5></a>
+        </div>
+        <div id="gu-ys">
+            <a href="trip/list?place=용산구"><h5>용산구</h5></a>
+        </div>
+        <div id="gu-gb">
+            <a href="trip/list?place=강북구"><h5>강북구</h5></a>
+        </div>
+        <div id="gu-sb">
+            <a href="trip/list?place=성북구"><h5>성북구</h5></a>
+        </div>
+        <div id="gu-ddm">
+            <a href="trip/list?place=동대문구"><h5>동대문구</h5></a>
+        </div>
+        <div id="gu-sd">
+            <a href="trip/list?place=성동구"><h5>성동구</h5></a>
+        </div>
+        <div id="gu-db">
+            <a href="trip/list?place=도봉구"><h5>도봉구</h5></a>
+        </div>
+        <div id="gu-nw">
+            <a href="trip/list?place=노원구"><h5>노원구</h5></a>
+        </div>
+        <div id="gu-grang">
+            <a href="trip/list?place=중랑구"><h5>중랑구</h5></a>
+        </div>
+        <div id="gu-gg">
+            <a href="trip/list?place=광진구">
+                <h5>광진구</h5>
+            </a>
+        </div>
+
+    </div>
+</section>
+<!-- 서울 지도 끝-->
+
+<!-- 핫플레이스 시작-->
+<section id="hotplace">
+    <div id="hotplace-main">
+        <h2>핫플레이스</h2>
+        <div id="contents-box" class="container-fluid">
+            <div class="container">
+                <div class="row" id="row03">
+                    <a class="col-sm-4" id="sm4_01" href="/trip/read?bno=219&page=1">
+                        <div class="caption">
+                            <h4>#반포대교 #달빛무지개분수</h4>
+                            <p>핫플레이스 바로가기</p>
+                        </div>
+                    </a>
+                    <a class="col-sm-4" id="sm4_02" href="trip/read?bno=220&page=1">
+                        <div class="caption">
+                            <h4>#남산타워 #케이블카</h4>
+                            <p>핫플레이스 바로가기</p>
+                        </div>
+                    </a>
+                    <a class="col-sm-4" id="sm4_03" href="/trip/read?bno=12&page=1">
+                        <div class="caption">
+                            <h4>#청와대 #관람</h4>
+                            <p>핫플레이스 바로가기</p>
+                        </div>
+                    </a>
+
+                    <a class="col-sm-4" id="sm4_04" href="/trip/read?bno=63&page=1">
+                        <div class="caption" >
+                            <h4>#경복궁 #한복</h4>
+                            <p>핫플레이스 바로가기</p>
+                        </div>
+                    </a>
+
+                    <a class="col-sm-4" id="sm4_05" href="/trip/read?bno=221&page=1">
+                        <div class="caption">
+                            <h4>#광화문 #서울나들이</h4>
+                            <p>핫플레이스 바로가기</p>
+                        </div>
+                    </a>
+
+                    <a class="col-sm-4" id="sm4_06" href="/trip/read?bno=223&page=1">
+                        <div class="caption">
+                            <h4>#남산한옥마을 #기와집</h4>
+                            <p>핫플레이스 바로가기</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<th:block th:replace="layout/fragment/footer :: footer"></th:block>
+<!-- 핫플레이스 끝-->
+</html>

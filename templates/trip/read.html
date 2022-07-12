@@ -1,0 +1,258 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:replace="layout/fragment/header :: header"></th:block>
+
+<div class="register-layout">
+    <div class="register-wrap">
+        <h1 class="writer-title">상세보기</h1>
+
+        <div class="post-writer">
+            <i class="fa-solid fa-user"></i>
+            <span>[[${dto.writerId}]]</span>
+            <span sec:authorize="hasRole('ROLE_USER')">회원</span>
+        </div>
+        <div class="post-element">
+            <span>제작일 :[[${#temporals.format(dto.regDate, 'yyyy.MM.dd')}]] 수정일 : [[${#temporals.format(dto.modDate, 'yyyy.MM.dd')}]] </span>
+        </div>
+
+        <label id="place-text">여행지 :</label>
+        <input id="place-name" name="place" th:value="${dto.place}">
+
+        <div id="list-modify-btn">
+            <span>
+                <a th:href="@{/trip/list(page=${requestDTO.page},keyword=${requestDTO.keyword})}">
+                    <button type="button" class="btn btn-success">목록</button>
+                </a>
+            </span>
+
+            <span>
+                <a id="modify-btn" th:href="@{/trip/modify(bno=${dto.bno})}"></a>
+            </span>
+        </div>
+
+        <div class="form-group" id="input-title">
+            <label >제목</label>
+            <input type="text" class="form-control form-title" name="title form-title" placeholder="제목을 입력하세요" th:value="${dto.title}" readonly style="background: white">
+        </div>
+
+        <div class="form-group">
+            <label >내용</label>
+            <textarea type="text" rows="25" class="form-control form-content" name="content" placeholder="내용을 입력하세요" readonly style="background: white">
+            [[${dto.content}]]
+            </textarea>
+        </div>
+
+        <div id="image-file">
+            <ul>
+                <label>이미지</label>
+                <li th:each="movieImage: ${dto.imageDTOList}" th:data-file="${movieImage.getThumbnailURL()}">
+                    <img th:if="${movieImage.path != null}" th:src="|/display?fileName=${movieImage.getThumbnailURL()}|">
+                </li>
+            </ul>
+        </div>
+<!--        <div>-->
+<!--            <a th:href="@{/trip/read(next=${dto.bno})}"></a>-->
+<!--        </div>-->
+
+        <div class="comment-box">
+            <div id="comment-box-title">
+                <span>댓글</span>
+                <span>([[${dto.replyCount}]])</span>
+            </div>
+            <div id="comment-box-form">
+                <div id="comment-form">
+                    <input sec:authorize="isAuthenticated()" class="security" type="hidden" th:value="${#authentication.principal.username}"/>
+
+                    <textarea sec:authorize="isAnonymous()" id="comment-content-login" class="comment-content" name="content" rows="5", placeholder="로그인을 해주세요."></textarea>
+
+                    <textarea  sec:authorize="isAuthenticated()" class="comment-content" name="content" rows="5", placeholder="댓글을 입력하세요."></textarea>
+
+                    <div class="comment-form-wrap" >
+                        <span class="starrr" id="comment-star"></span>
+
+                        <span class="length">
+                            <span class="comment_length">0</span>
+                            / 500
+                        </span>
+
+                        <button id="comment-btn" class="btn btn-success">등록</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <ul class="list-group TripReplyList" id="comment-list">
+
+        </ul>
+    </div>
+</div>
+</div>
+
+<script th:src="@{/starrr.js}"></script>
+
+<script th:inline="javascript">
+    $(document).ready(function (e) {
+        var security = $('.security').val();
+        var targetReview = $(this);
+        var replyWriter = targetReview.find('#userId').text().trim();
+        var star = 0;
+        $('.starrr').starrr({
+            rating: star,
+            change: function (e, value) {
+                if (value) {
+                    console.log(value);
+                    star = value;
+                }
+            }
+        });
+
+        var trip = [[${dto.bno}]];
+
+        var inputWriter = $(".security");
+
+        var reviewContent = $(".comment-content");
+
+        inputWriter.val("");
+        reviewContent.val("");
+
+        $('#comment-btn').click(function () {
+            var data = {trip: trip, star: star, content: reviewContent.val(), writer: inputWriter.val()};
+            console.log(data);
+            $.ajax({
+                url: '/reply/' + trip,
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                success: function (result) {
+                    $("#replyCount").html(result);
+                    getTripReply()
+                    self.location.reload();
+                }
+            })
+        });
+
+        function getTripReply() {
+            function formatTime(str) {
+                var date = new Date(str);
+                var year = date.getFullYear().toString();
+                year.substr(2,4);
+
+                return year + '.'
+                    + (date.getMonth() + 1) + '.' +
+                    date.getDate();
+            }
+
+            $.getJSON("/reply/" + trip + "/all", function (arr) {
+                var str = "";
+
+                $.each(arr, function (idx, reply) {
+                    console.log(reply)
+
+                    str += '<li class="replyList"> '
+                    // str += '<i class="fa-solid fa-user" id="comment-icon"></i>'
+
+                    str += '<div class="comment-all-box">';
+
+                    str += '<div class="comment-id-box">'
+                    str += '<span  id="userId">' + reply.writer + '</span>';
+                    str += '<input type="hidden" name="userId" value="'+reply.writer+'">';
+
+                    str += '<span>' + formatTime(reply.regDate) + '</span>';
+
+                    str += '<div id="comment-btn-star">';
+                    str += '<span class="replystar"  data-star2='+reply.star + ' data-trip=' + reply.trip+ '></span>';
+                    str += '<span class="btn removeBtn" data-writer='+reply.writer+' data-rno=' + reply.rno +'><i class="fa-solid fa-xmark"></i></span>';
+
+                    // str += '<span class="btn" id="modifyBtn"><i class="fa-solid fa-pencil"></i></span>';
+                    str += '</div>';
+                    str += '</div>';
+                    str += '<div class="comment-content-box">';
+                    str += '<span id="reviewText">' + reply.content + '</span>'
+                    str += '</div>'
+
+                    str += '</div>'
+                    str += '<input type="hidden" name="rno" value="'+reply.rno+'">';
+                    str += '<input type="hidden" name="writer" value="'+reply.writer+'">';
+                    str += '</li>'
+                });
+
+                $(".TripReplyList").html(str);
+
+                $(".replystar").each(function (idx, o) {
+                    $(this).starrr({rating: $(this).data("star2"), readOnly: true});
+                });
+            });
+        }
+
+
+        getTripReply();
+        $(".TripReplyList").on('click',".removeBtn",function (){
+            console.log("삭제버튼");
+
+            var rno;
+            var replyId;
+            var writer;
+            var targetReview = $(this);
+            console.log(targetReview);
+            var data = {rno: rno, writer: writer};
+
+            replyId = targetReview.data("writer");
+            rno = targetReview.data("rno");
+
+            console.log("댓글번호는 : "+rno);
+            console.log("댓글 아이디: " +replyId);
+            console.log("삭제 버튼 : :"+data);
+            console.log("로그인한 유저는: "+ security);
+            console.log("-------------------------");
+
+            if(security == null || security == ""){
+                alert("로그인 후 이용해주세요");
+                return false;
+            }
+
+
+            var con = confirm("댓글을 삭제하시겠습니까?");
+
+
+            if(con == true && security == replyId){
+                $.ajax({
+                    url: '/reply/' + trip + "/" + rno,
+                    type: "DELETE",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text",
+                    success: function (result) {
+                        self.location.reload();
+                        $("#replyCount").html(result);//reivew count update
+                        getTripReply();
+                    }
+                })
+            }else if(con == true && security != replyId){
+                alert("내가 쓴 글이 아닙니다.");
+            }else{
+                return false;
+            }
+        });
+
+    });
+
+
+
+</script>
+
+<script th:inline="javascript">
+    var str ="";
+    var security = $(".security").val();
+    var id = [[${dto.memberDTOList[0].id}]];
+    var modify = $("#modify-btn");
+
+    console.log("로그인한 아이디"+security);
+    console.log("글쓴이"+id);
+
+    if(security == id){
+        str+='<button type="button" class="btn btn-warning">수정</button>';
+        modify.html(str);
+    }
+</script >
+
+</html>

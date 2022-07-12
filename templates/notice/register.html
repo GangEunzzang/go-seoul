@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+    .register-layout{
+        font-family: 'Do Hyeon', sans-serif;
+        width: 70%;
+        height:1000px;
+        margin-top: 5%;
+        border: 2px solid black;
+        border-radius: 30px;
+        margin-left:15%;
+        margin-right:10%;
+        border-bottom: 5%;
+    }
+    .writer-title{
+        font-size:40px;
+    }
+
+    .footer{
+        margin-top:50px;
+    }
+</style>
+<th:block th:replace="layout/fragment/header :: header"></th:block>
+
+<div class="register-layout">
+    <div class="register-wrap">
+        <h1 class="writer-title">공지사항</h1>
+        <form th:action="@{/notice/register}" th:method="post">
+            <div class="form-group">
+                <h3>제목</h3>
+                <input type="text" class="form-control form-title" name="title" placeholder="제목을 입력하세요.">
+            </div>
+
+            <div class="form-group">
+                <h3>본문</h3>
+                <textarea type="text" rows="25" class="form-control form-content" name="content" placeholder="내용을 입력하세요."></textarea>
+            </div>
+
+            <input type="hidden" name="writerId">  <!-- 아이디 정보 보내줌 .-->
+
+            <button type="submit" class="btn btn-primary registerBtn"><h4>등록</h4></button>
+        </form>
+    </div>
+</div>
+<div class="footer">
+    <th:block th:replace="layout/fragment/footer :: footer"></th:block>
+</div>
+
+
+</html>

@@ -1,0 +1,223 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:replace="layout/fragment/header :: header"></th:block>
+
+<div id ="trip-section">
+    <div id="trip-main-img">
+        <span id="trip-main-img-text">서울 여행</span>
+    </div>
+    <div class="container-fluid" id="trip-section1">
+        <div class="container">
+
+            <div id="slider" class="container text-center">
+                <div class="slider">
+                    <div><button class="slider-img" name="place" value="강남구"><img src="/img/slider/강남.PNG"></button></div>
+                    <div><button class="slider-img" name="place" value="강북구"><img src="/img/slider/강북구.jpg"></button></div>
+                    <div><button class="slider-img" name="place" value="강서구"><img src="/img/slider/강서.PNG"></button></div>
+                    <div><button class="slider-img" name="place" value="관악구"><img src="/img/slider/관악구.jpg"></button></div>
+                    <div><button class="slider-img" name="place" value="광진구"><img src="/img/slider/광진구.jpg"></button></div>
+                    <div><button class="slider-img" name="place" value="구로구"><img src="/img/slider/구로구.png"></button></div>
+                    <div><button class="slider-img" name="place" value="금천구"><img src="/img/slider/금천구.jpg"></button></div>
+                    <div><button class="slider-img" name="place" value="노원구"><img src="/img/slider/노원구1.png"></button></div>
+                    <div><button class="slider-img" name="place" value="도봉구"><img src="/img/slider/도봉.PNG"></button></div>
+                    <div><button class="slider-img" name="place" value="동대문구"><img src="/img/slider/동대문구.gif"></button></div>
+                    <div><button class="slider-img" name="place" value="동작구"><img src="/img/slider/동작.PNG"></button></div>
+                    <div><button class="slider-img" name="place" value="마포구"><img src="/img/slider/마포구.png"></button></div>
+                    <div><button class="slider-img" name="place" value="서초구"><img src="/img/slider/서초구.jpg"></button></div>
+                    <div><button class="slider-img" name="place" value="성동구"><img src="/img/slider/성동구.jpg"></button></div>
+                    <div><button class="slider-img" name="place" value="성북구"><img src="/img/slider/성북구1.png"></button></div>
+                    <div><button class="slider-img" name="place" value="송파구"><img src="/img/slider/송파구.png"></button></div>
+                    <div><button class="slider-img" name="place" value="양천구"><img src="/img/slider/양천구.png"></button></div>
+                    <div><button class="slider-img" name="place" value="영등포구"><img src="/img/slider/영등포구.png"></button></div>
+                    <div><button class="slider-img" name="place" value="용산구"><img src="/img/slider/용산구.jpg"></button></div>
+                    <div><button class="slider-img" name="place" value="은평구"><img src="/img/slider/은평구.png"></button></div>
+                    <div><button class="slider-img" name="place" value="종로구"><img src="/img/slider/종로구.png"></button></div>
+                    <div><button class="slider-img" name="place" value="중구"><img src="/img/slider/중구2.jpg"></button></div>
+                    <div><button class="slider-img" name="place" value="중랑구"><img src="/img/slider/중랑구.png"></button></div>
+                </div>
+            </div>
+
+            <div id ="trip-location">
+            <span class="trip-location-text">
+                <i class="fa-solid fa-house "></i>
+            </span>
+
+                <span class="trip-location-text">
+                <i class="fa-solid fa-angle-right "></i>
+            </span>
+
+            <span class="trip-location-text">
+                여행 게시판
+                <a style="position:absolute;right:20%;" th:href="@{/trip/register}" sec:authorize="isAuthenticated()" class="btn btn-primary">글쓰기</a>
+            </span>
+
+                <span th:if="${place != null}">
+                <span class="trip-location-text">
+                    <i class="fa-solid fa-angle-right"></i>
+                </span>
+
+                <span id="trip-location-place">
+                    [[${place}]]
+                </span>
+            </span>
+            </div>
+
+            <div class="row" id="page-img" >
+                <div class="col-sm-3" id="trip-main" th:each="dto : ${result.dtoList}">
+                    <a th:href="@{/trip/read(bno=${dto.bno},page=${result.page})}">
+                        <img th:if="${dto.imageDTOList.size() > 0 && dto.imageDTOList[0].path != null }"
+                             th:src="|/display?fileName=${dto.imageDTOList[0].getThumbnailURL()}|"width="280px", height="200px">
+                    </a>
+                    <!--                <div id="trip-main-text">-->
+                    <!--                    <i class="fa-solid fa-hashtag"></i>-->
+                    <!--                    [[${dto.place}]]-->
+                    <!--                </div>-->
+                    <a th:href="@{/trip/read(bno=${dto.bno},
+                page=${result.page},
+                keyword=${pageRequestDTO.keyword})}">
+                        <div class ="trip-element">
+                            <div class="trip-element-inner">
+                                <span class="trip-element-title">[[${dto.title}]]</span>
+                                <span class="trip-element-content">[[${dto.content}]]</span>
+                                <div class="trip-element-tag">
+                                <span id="trip-element-bno">
+                                    [[${dto.bno}]]
+                                </span>
+                                    <span class="trip-element-icon">
+                                    <i class="fa-solid fa-hashtag" style="color:#f590d7;"></i>[[${dto.place}]]
+                                </span>
+                                    <span class="trip-element-icon">
+                                    <i class="fa-solid fa-comment" style="color:#9aef80;"></i>[[${dto.replyCount}]]
+                                </span>
+                                    <span class="trip-element-icon">
+                                    <i class="fa-solid fa-star" style="color:#ffcb0e;"></i>
+                                    [[${#numbers.formatInteger(dto.avg, '1')}]]
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="pagination h-100 justify-content-center align-items-center" id="trip-paging">
+
+    <li class="page-item " th:if="${result.prev}">
+        <a class="page-link" th:href="@{/trip/list(page= ${result.start -1})}" tabindex="-1">이전</a>
+        <a class="page-link" th:if="${pageRequestDTO.keyword} and !${pageRequestDTO.place} and !${pageRequestDTO.Mytrip}" th:href="@{/trip/list(page= ${result.start -1}
+        ,keyword = ${pageRequestDTO.keyword})}" tabindex="-1">이전</a>
+        <a class="page-link" th:if="${pageRequestDTO.place} and !${pageRequestDTO.keyword} and !${pageRequestDTO.Mytrip}" th:href="@{/trip/list(page= ${result.start -1}
+        ,place = ${pageRequestDTO.place})}" tabindex="-1">이전</a>
+        <a class="page-link" th:if="${pageRequestDTO.Mytrip} and !${pageRequestDTO.place} and !${pageRequestDTO.keyword}" th:href="@{/trip/list(page= ${result.start -1}
+        ,Mytrip = ${pageRequestDTO.Mytrip})}" tabindex="-1">이전</a>
+    </li>
+
+    <li th:class=" 'page-item ' + ${result.page == page?'active':''} "
+        th:each="page: ${result.pageList}" >
+        <a class="page-link" th:if="${pageRequestDTO.keyword} and !${pageRequestDTO.place} and !${pageRequestDTO.Mytrip}" th:href="@{/trip/list(page = ${page}
+        ,keyword = ${pageRequestDTO.keyword})}">
+            [[${page}]]
+        </a>
+        <a class="page-link" th:if="${pageRequestDTO.place} and !${pageRequestDTO.keyword} and !${pageRequestDTO.Mytrip}" th:href="@{/trip/list(page = ${page}
+            ,place = ${pageRequestDTO.place})}">
+            [[${page}]]
+        </a>
+        <a class="page-link" th:if="${pageRequestDTO.Mytrip} and !${pageRequestDTO.place} and !${pageRequestDTO.keyword}" th:href="@{/trip/list(page = ${page}
+            ,Mytrip = ${pageRequestDTO.Mytrip})}">
+            [[${page}]]
+        </a>
+        <a class="page-link" th:if="!${pageRequestDTO.keyword} and !${pageRequestDTO.place} and !${pageRequestDTO.Mytrip}" th:unless="${pageRequestDTO.place}"
+           th:href="@{/trip/list(page = ${page})}">
+            [[${page}]]
+        </a>
+
+    </li>
+
+    <li class="page-item" th:if="${result.next}">
+        <a class="page-link" th:href="@{/trip/list(page= ${result.end + 1} )}">다음</a>
+        <a class="page-link" th:if="${pageRequestDTO.keyword} and !${pageRequestDTO.place} and !${pageRequestDTO.Mytrip}" th:href="@{/trip/list(page= ${result.end + 1}
+         ,keyword = ${pageRequestDTO.keyword})}">다음</a>
+        <a class="page-link" th:if="${pageRequestDTO.place} and !${pageRequestDTO.keyword} and !${pageRequestDTO.Mytrip}" th:href="@{/trip/list(page= ${result.end + 1}
+         ,place = ${pageRequestDTO.place})}">다음</a>
+        <a class="page-link" th:if="${pageRequestDTO.Mytrip} and !${pageRequestDTO.place} and !${pageRequestDTO.keyword}" th:href="@{/trip/list(page= ${result.end + 1}
+         ,Mytrip = ${pageRequestDTO.Mytrip})}">다음</a>
+    </li>
+</ul>
+<!--<input type="hidden" name="page" th:value="${pagerequestDTO.page}">-->
+<!--<input type="hidden" name="type" th:value="${pageRequestDTO.type}">-->
+<!--<input type="hidden" name="keyword" th:value="${pageRequestDTO.keyword}">-->
+
+
+
+<th:block th:replace="layout/fragment/footer :: footer"></th:block>
+</html>
+
+
+<script>
+    $( document ).ready(function() {
+        $( '.slider' ).slick( {
+            autoplay: true,
+            autoplaySpeed: 1000,
+            slidesToShow: 7,
+            slidesToScroll: 1,
+            pauseOnFocus: false,
+            pauseOnHover: false,
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 3,
+                    }
+                },
+                {
+                    breakpoint: 576,
+                    settings: {
+                        slidesToShow: 2,
+                    }
+                }
+            ]
+        });
+
+
+        $('.slider-img').on("click", function (){
+            var place = $(this).val();
+            console.log(place);
+
+            location.href="/trip/list?place="+place;
+
+            // $.ajax({
+            //     url:place+'/list',
+            //     dataType: "text",
+            //     data:JSON.stringify(place),
+            //     contentType:"application/json;charset=UTF-8",
+            //     success : function (data) { //여기에 반환된 객체가 들어감(컨트롤러에서)
+            //         console.log("haha"+data);
+            //         $('#page-img').empty();
+            //         // $('#page-img').append(data);  // 디버깅용 코드
+            //
+            //          $('#page-img').append("<div className='col-sm-4' id='trip-main' th:each='dto :${result.dtoList}'>" +
+            //                                   "<img th:if='${dto.imageDTOList.size() > 0 && dto.imageDTOList[0].path != null }'>" +
+            //                                   "<th:src='|/display?fileName=${dto.imageDTOList[0].getThumbnailURL()}|'>" +
+            //                                   "<width='280px', height='200px'>" +
+            //                                   "<div id='trip-main-text'>" +
+            //                                   "<i className='fa-solid fa-hashtag'></i>" +
+            //                                   "[[${place}]]" +
+                                          //    "</div>");
+        //
+        //             console.log("성공");
+        //             console.log(place);
+        //
+        //         },error: function () {
+        //             alert("실패");
+        //         }
+        //
+        //     });
+         })
+
+
+    });
+
+</script>

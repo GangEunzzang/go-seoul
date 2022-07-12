@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<script src="https://kit.fontawesome.com/44d763aa33.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<th:block th:replace="layout/fragment/header :: header"></th:block>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+    .container {
+        font-family: 'Do Hyeon', sans-serif;
+        width: 80%;
+        margin-top: 5%;
+        border: 2px solid #F9F9F9;
+        border-radius: 30px;
+        margin-left:10%;
+        margin-right:10%;
+    }
+
+    /*메인 타이틀*/
+    .main_tit{
+        margin: 30px;
+        margin-top: 40px;
+        margin-left: 40px;
+        margin-bottom:20px;
+    }
+    .main_font{
+        font-weight: bold;
+        font-size: 40px;
+    }
+
+    /*글쓰기 버튼*/
+    #register-btn{
+       position:absolute;
+       right:15%;
+       top:26%;:
+    }
+
+
+    /*본문*/
+    .line_box{
+        margin-right: 40px;
+    }
+    .line_box .board02_content>li .tit{
+        margin-bottom: 0;
+        margin-left: 10%;
+    }
+    .board02_content>li {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .board02_content>li.th_line {
+        background-color: #f9f9f9;
+        border-radius: 20px;
+
+    }
+
+    .board02_content>li.th_line>div {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .board02_content>li .num {
+        width: 7%;
+    }
+
+    .board02_content>li .tit {
+        width: 70%;
+    }
+
+    .board02_content>li .date {
+        width: 13%;
+    }
+
+    .board02_content>li .period {
+        width: 23%;
+    }
+    .board02_content>li.td_line + li.td_line {
+        border-top: 1px solid rgba(224, 223, 226, 0.6);
+    }
+
+    .board02_content>li.td_line>div {
+        font-size: 16px;
+    }
+
+    .board02_content>li.td_line>div a {
+        font-size: 100%;
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .board02_content>li.td_line>div span {
+        color: inherit;
+        font-size: inherit;
+    }
+
+    #paging{
+        margin-left: 50%;
+        text-align: center;
+        color: black;
+    }
+
+    .footer{
+        padding: 0;
+        width:100%;
+        margin-top: 40px;
+    }
+
+
+    @media screen and (max-width:1280px) {
+        .line_box .board02_content>li .tit{
+            margin-left: 0%;
+        }
+    }
+    @media screen and (max-width:768px) {
+        .line_box .board02_content .th_line + .td_line{
+            border-top:0;
+        }
+        .line_box .board02_content > .td_line:last-child{
+            border-bottom:0;
+        }
+        .line_box .board02_content > li.td_line .tit{
+            padding-right: 50px;
+        }
+    }
+
+</style>
+<div class="container">
+    <div class="main_tit">
+        <h3 class="main_font">공지사항</h3>
+    </div>
+
+    <input sec:authorize="isAuthenticated()" class="security" type="hidden" th:value="${#authentication.principal.username}"/>
+
+    <span id="register-btn">
+        <a  th:href="@{/notice/register}"></a>
+    </span>
+    <div class="line_box">
+        <ul class="board02_content invest_news">
+            <li class="th_line">
+                <div class="num">번호</div>
+                <div class="tit">제목</div>
+                <div class="period">작성자</div>
+                <div class="date">작성일</div>
+            </li>
+            <li class="td_line" th:each="dto : ${result.dtoList}">
+                <div class="num">[[${dto.bno}]]</div>
+                <div class="tit">
+                    <a th:href="@{/notice/read(bno = ${dto.bno}, page=${result.page})}">[[${dto.title}]]</a>
+                </div>
+                <div class="period">[[${dto.writerId}]]</div>
+                <div class="date">[[${#temporals.format(dto.regDate, 'yyyy.MM.dd')}]]</div>
+            </li>
+        </ul>
+    </div>
+
+    <!--하단 페이징처리-->
+    <ul id="paging" class="pagination h-100 justify-content-center align-items-center">
+
+        <!-- 이전 ----->
+        <li class="page-item" th:if="${result.prev}">
+            <a class="page-link"
+               th:href="@{notice/list(page= ${result.start -1},
+               type=${pageRequestDTO.type},
+               keyword = ${pageRequestDTO.keyword})}" tabindex="-1">이전</a>
+        </li>
+        <!-- 이전 끝 -->
+
+        <!-- 페이지 ---->
+        <li th:class=" 'page-item' + ${result.page == page?'active':''}" th:each="page:${result.pageList}">
+            <a class="page-link"
+               th:href="@{/notice/list(page = ${page},
+               type=${pageRequestDTO.type},
+               keyword=${pageRequestDTO.keyword})}">[[${page}]]</a>
+        </li>
+        <!-- 페이지 끝 -->
+
+        <!-- 다음 ----->
+        <li class="page-item" th:if="${result.next}">
+            <a class="page-link"
+               th:href="@{/notice/list(page= ${result.end +1},
+               type=${pageRequestDTO.type},
+               keyword=${pageRequestDTO.keyword})}">다음</a>
+        </li>
+        <!-- 다음 끝 -->
+    </ul>
+</div>
+<div class="footer">
+    <th:block  th:replace="layout/fragment/footer :: footer"></th:block>
+</div>
+
+<script th:inline="javascript">
+    var str ="";
+    var security = $(".security").val();
+    var id = "sg07731@gmail.com";
+    var register = $("#register-btn");
+
+    console.log("로그인한 아이디"+security);
+
+    if(security == id){
+        str+='<button style="margin-left:40px;margin-bottom:10px;"" type="button" class="btn btn-warning">글쓰기</button>';
+        register.html(str);
+    }
+</script >
+</html>

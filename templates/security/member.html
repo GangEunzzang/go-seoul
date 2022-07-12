@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Member</title>
+</head>
+<body>
+<h1>For Member................</h1>
+
+<a href="/index">
+    <button type="button" class="btn btn-info" >메인페이지 이동</button>
+
+</a>
+
+<div sec:authorize="hasRole('USER')">유저 표시</div>
+
+<div sec:authorize="hasRole('MANAGER')">멤버 표시</div>
+
+<div sec:authorize="hasRole('ADMIN')">관리자 표시
+    <a href="/security/admin">관리자모드</a>
+</div>
+
+
+
+<div sec:authorize="isAuthenticated()">
+    로그인 했을때 보이는 text
+    <a th:href="@{/user/logout}">로그아웃</a>
+</div>
+
+
+로그인 사용자 이름 :
+<div sec:authentication="principal.username"></div>
+
+사용자 권한표시 :
+<div sec:authentication="principal.authorities"></div>
+</body>
+</html>
