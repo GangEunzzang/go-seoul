@@ -16,6 +16,7 @@
 |김원빈|BE|
 |정현민|BE|
 |신민재|FE|
+![image](https://user-images.githubusercontent.com/73535356/178921978-8f097329-826c-4ebc-b5b9-b161175c4b53.png)
 
 
 ***
