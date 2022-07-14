@@ -14,6 +14,6 @@
 * 지역별 정렬 및 페이징 구현            
 * AWS를 이용하여 서버 배포        
 
-🛠 ERD  
+## 🛠 ERD  
 <img width="1020" alt="erd" src="https://user-images.githubusercontent.com/73535356/178920117-1d0062ff-f4c7-4470-bb38-f4f2e8160ae6.png">
 
