@@ -41,6 +41,8 @@
 <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=black">
 <img src="https://img.shields.io/badge/mariaDB-003545?style=for-the-badge&logo=mariaDB&logoColor=white">
 <img src="https://img.shields.io/badge/JPA-7952B3?style=for-the-badge&logo=JPA&logoColor=white">
+<img src="https://img.shields.io/badge/AWS-7952B3?style=for-the-badge&logo=AWS&logoColor=orange">
+
 
 
 ***
