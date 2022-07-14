@@ -31,3 +31,7 @@
 ## 🛠 ERD  
 <img width="1020" alt="erd" src="https://user-images.githubusercontent.com/73535356/178920117-1d0062ff-f4c7-4470-bb38-f4f2e8160ae6.png">
 
+***
+## 🧭일정계획서
+![image](https://user-images.githubusercontent.com/73535356/178921196-e309d386-5e70-426c-8486-e29b44f1ffad.png)
+
