@@ -35,7 +35,7 @@
 
 ### Back-End
 <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=black"> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=black">  
-<img src="https://img.shields.io/badge/mariaDB-003545?style=for-the-badge&logo=mariaDB&logoColor=white"> <img src="https://img.shields.io/badge/JPA-7952B3?style=for-the-badge&logo=JPA&logoColor=white"> <img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=orange"> <img src="https://img.shields.io/badge/JPA-005F0F?style=for-the-badge&logo=JPA&logoColor=white"> <img src="https://img.shields.io/badge/Thymeleaf-232F3E?style=for-the-badge&logo=Thymeleaf&logoColor=white">
+<img src="https://img.shields.io/badge/mariaDB-003545?style=for-the-badge&logo=mariaDB&logoColor=white"> <img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=orange"> <img src="https://img.shields.io/badge/JPA-005F0F?style=for-the-badge&logo=JPA&logoColor=white"> <img src="https://img.shields.io/badge/Thymeleaf-232F3E?style=for-the-badge&logo=Thymeleaf&logoColor=white">
 
 
 
